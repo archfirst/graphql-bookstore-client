@@ -73,11 +73,6 @@ class BooksViewBase extends React.Component {
                         </TableBody>
                     </Table>
                 </Paper>
-
-
-
-
-
             </div>
         );
     }

@@ -9,7 +9,12 @@ import Table, {
     TableRow
 } from 'material-ui/Table';
 import Typography from 'material-ui/Typography';
+import { action, observable } from 'mobx';
+import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
+import { Publisher } from './publisher';
+import { PublisherCreateContainer } from './publisher-create-container';
+import { PublisherUpdateContainer } from './publisher-update-container';
 
 const styles = theme => ({
     root: {
@@ -29,10 +34,16 @@ const styles = theme => ({
     }
 });
 
+@observer
 class PublishersViewBase extends React.Component {
     static propTypes = {
         publishers: PropTypes.arrayOf(PropTypes.object).isRequired
     };
+
+    @observable openCreateDialog = false;
+    @observable openUpdateDialog = false;
+    @observable newPublisher = new Publisher();
+    @observable existingPublisher = new Publisher();
 
     render() {
         const { classes, publishers } = this.props;
@@ -60,7 +71,11 @@ class PublishersViewBase extends React.Component {
                         <TableBody>
                             {
                                 publishers.map(publisher => (
-                                    <TableRow hover key={publisher.id}>
+                                    <TableRow
+                                        hover
+                                        key={publisher.id}
+                                        onClick={() => this.onRowClicked(publisher)}
+                                    >
                                         <TableCell>{publisher.name}</TableCell>
                                     </TableRow>
                                 ))
@@ -68,13 +83,43 @@ class PublishersViewBase extends React.Component {
                         </TableBody>
                     </Table>
                 </Paper>
+
+                <PublisherCreateContainer
+                    publisher={this.newPublisher}
+                    openDialog={this.openCreateDialog}
+                    onAddDone={this.onAddDone}
+                />
+
+                <PublisherUpdateContainer
+                    publisher={this.existingPublisher}
+                    openDialog={this.openUpdateDialog}
+                    onUpdateDone={this.onUpdateDone}
+                />
             </div>
         );
     }
 
+    @action
     onAddClicked = () => {
-        console.log('Add clicked');
-    }
+        this.newPublisher = new Publisher();
+        this.openCreateDialog = true;
+    };
+
+    @action
+    onAddDone = () => {
+        this.openCreateDialog = false;
+    };
+
+    @action
+    onRowClicked = (publisher) => {
+        this.existingPublisher = new Publisher(publisher.id, publisher.name);
+        this.openUpdateDialog = true;
+    };
+
+    @action
+    onUpdateDone = () => {
+        this.openUpdateDialog = false;
+    };
 }
 
 export const PublishersView = withStyles(styles)(PublishersViewBase);
