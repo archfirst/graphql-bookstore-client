@@ -8,6 +8,10 @@ import red from 'material-ui/colors/red';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import createMuiTheme from 'material-ui/styles/createMuiTheme';
 import { Provider } from 'mobx-react';
+import {
+    SubscriptionClient,
+    addGraphQLSubscriptions
+} from 'subscriptions-transport-ws';
 import { Shell } from './shell';
 
 export class App extends React.Component {
@@ -26,13 +30,26 @@ export class App extends React.Component {
 
         const theme = createMuiTheme({ palette, typography });
 
-        // Create Apollo client
+        // Create GraphQL network interface
         const graphqlServerUri = 'http://localhost:8080/graphql';
         const networkInterface = createNetworkInterface({
             uri: graphqlServerUri
         });
+
+        // Add subscriptions to the network interface
+        const graphqlSubscriptionServerUri =
+            'ws://localhost:8080/subscriptions';
+        const wsClient = new SubscriptionClient(graphqlSubscriptionServerUri, {
+            reconnect: true
+        });
+        const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
+            networkInterface,
+            wsClient
+        );
+
+        // Create the Apollo client
         const apolloClient = new ApolloClient({
-            networkInterface: networkInterface,
+            networkInterface: networkInterfaceWithSubscriptions,
             dataIdFromObject: o => o.id
         });
 

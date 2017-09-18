@@ -10,20 +10,23 @@ class BooksContainerBase extends React.Component {
     }
 }
 
+// IMPORTANT: Be sure to fetch the id's of the child objects otherwise
+// Apollo can't fold them into the real entities.
 const BOOKS_QUERY = gql`
     {
         books {
             id
             name
             publisher {
-              name
-            },
+                id
+                name
+            }
             authors {
-              id
-              name
+                id
+                name
             }
         }
-    } 
+    }
 `;
 
 // BooksContainer = graphql(...)(LoadingStateViewer(BooksContainerBase`))
