@@ -21,9 +21,9 @@ const styles = {
 };
 
 @observer
-class PublisherDialogBase extends React.Component {
+class AuthorDialogBase extends React.Component {
     static propTypes = {
-        publisher: PropTypes.object,
+        author: PropTypes.object,
         isNew: PropTypes.bool.isRequired,
         open: PropTypes.bool.isRequired,
         onSave: PropTypes.func.isRequired,
@@ -31,26 +31,19 @@ class PublisherDialogBase extends React.Component {
     };
 
     render() {
-        const {
-            classes,
-            publisher,
-            isNew,
-            open,
-            onSave,
-            onCancel
-        } = this.props;
+        const { classes, author, isNew, open, onSave, onCancel } = this.props;
 
         return (
             <Dialog open={open} classes={{ paper: classes.dialogPaper }}>
                 <DialogTitle>
-                    {isNew ? 'Create Publisher' : 'Edit Publisher'}
+                    {isNew ? 'Create Author' : 'Edit Author'}
                 </DialogTitle>
                 <DialogContent className={classes.content}>
                     <TextField
                         id="id"
                         name="id"
                         label="Id"
-                        value={publisher.id}
+                        value={author.id}
                         onChange={this.onIdChange}
                         disabled={isNew ? false : true}
                         margin="normal"
@@ -59,7 +52,7 @@ class PublisherDialogBase extends React.Component {
                         id="name"
                         name="name"
                         label="Name"
-                        value={publisher.name}
+                        value={author.name}
                         onChange={this.onNameChange}
                         margin="normal"
                     />
@@ -77,14 +70,14 @@ class PublisherDialogBase extends React.Component {
     }
 
     onIdChange = event => {
-        const { publisher } = this.props;
-        publisher.setId(event.target.value);
+        const { author } = this.props;
+        author.setId(event.target.value);
     };
 
     onNameChange = event => {
-        const { publisher } = this.props;
-        publisher.setName(event.target.value);
+        const { author } = this.props;
+        author.setName(event.target.value);
     };
 }
 
-export const PublisherDialog = withStyles(styles)(PublisherDialogBase);
+export const AuthorDialog = withStyles(styles)(AuthorDialogBase);
