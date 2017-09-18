@@ -9,7 +9,12 @@ import Table, {
     TableRow
 } from 'material-ui/Table';
 import Typography from 'material-ui/Typography';
+import { action, observable } from 'mobx';
+import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
+import { Book } from './book';
+import { BookCreateContainer } from './book-create-container';
+import { BookUpdateContainer } from './book-update-container';
 
 const styles = theme => ({
     root: {
@@ -30,10 +35,16 @@ const styles = theme => ({
     }
 });
 
+@observer
 class BooksViewBase extends React.Component {
     static propTypes = {
         books: PropTypes.arrayOf(PropTypes.object).isRequired
     };
+
+    @observable openCreateDialog = false;
+    @observable openUpdateDialog = false;
+    @observable newBook = new Book();
+    @observable existingBook = new Book();
 
     render() {
         const { classes, books } = this.props;
@@ -42,11 +53,7 @@ class BooksViewBase extends React.Component {
             <div className={classes.root}>
                 <div className={classes.header}>
                     <Typography type="title">Books</Typography>
-                    <Button
-                        dense
-                        color="primary"
-                        onClick={this.onAddClicked}
-                    >
+                    <Button dense color="primary" onClick={this.onAddClicked}>
                         Add
                     </Button>
                 </div>
@@ -61,25 +68,61 @@ class BooksViewBase extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {
-                                books.map(book => (
-                                    <TableRow hover key={book.id}>
-                                        <TableCell>{book.name}</TableCell>
-                                        <TableCell>{book.publisher.name}</TableCell>
-                                        <TableCell>{book.authors.map(author => author.name).join(', ')}</TableCell>
-                                    </TableRow>
-                                ))
-                            }
+                            {books.map(book => (
+                                <TableRow
+                                    hover
+                                    key={book.id}
+                                    onClick={() => this.onRowClicked(book)}
+                                >
+                                    <TableCell>{book.name}</TableCell>
+                                    <TableCell>{book.publisher.name}</TableCell>
+                                    <TableCell>
+                                        {book.authors
+                                            .map(author => author.name)
+                                            .join(', ')}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </Paper>
+
+                <BookCreateContainer
+                    book={this.newBook}
+                    openDialog={this.openCreateDialog}
+                    onAddDone={this.onAddDone}
+                />
+
+                <BookUpdateContainer
+                    book={this.existingBook}
+                    openDialog={this.openUpdateDialog}
+                    onUpdateDone={this.onUpdateDone}
+                />
             </div>
         );
     }
 
+    @action
     onAddClicked = () => {
-        console.log('Add clicked');
-    }
+        this.newBook = new Book();
+        this.openCreateDialog = true;
+    };
+
+    @action
+    onAddDone = () => {
+        this.openCreateDialog = false;
+    };
+
+    @action
+    onRowClicked = book => {
+        this.existingBook = new Book(book.id, book.name);
+        this.openUpdateDialog = true;
+    };
+
+    @action
+    onUpdateDone = () => {
+        this.openUpdateDialog = false;
+    };
 }
 
 export const BooksView = withStyles(styles)(BooksViewBase);
