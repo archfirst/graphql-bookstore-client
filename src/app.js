@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import blue from 'material-ui/colors/blue';
@@ -12,6 +12,7 @@ import {
     SubscriptionClient,
     addGraphQLSubscriptions
 } from 'subscriptions-transport-ws';
+import { browserHistory } from 'shared/utils';
 import { Shell } from './shell';
 
 export class App extends React.Component {
@@ -57,7 +58,7 @@ export class App extends React.Component {
             <ApolloProvider client={apolloClient}>
                 <MuiThemeProvider theme={theme}>
                     <Provider>
-                        <Router>
+                        <Router history={browserHistory}>
                             <Shell />
                         </Router>
                     </Provider>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { BookstorePage } from './features';
+import { BookstorePage, SettingsPage } from './features';
 // import DevTools from 'mobx-react-devtools';
 
 const styles = theme => ({
@@ -45,6 +45,7 @@ class ShellBase extends React.Component {
             <div className={classes.root}>
                 <Switch>
                     <Route exact path="/" component={BookstorePage} />
+                    <Route exact path="/settings" component={SettingsPage} />
                 </Switch>
                 {/* <DevTools position={{top: 46, left: 25}} /> */}
             </div>
