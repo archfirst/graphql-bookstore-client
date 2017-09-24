@@ -1,5 +1,5 @@
 import React from 'react';
-import { gql, graphql } from 'react-apollo';
+import { compose, gql, graphql } from 'react-apollo';
 import { LoadingStateViewer } from 'shared/components';
 import { BookDialog } from './book-dialog';
 
@@ -42,7 +42,21 @@ const BOOK_CREATION = gql`
     }
 `;
 
+const PUBLISHERS_QUERY = gql`
+    {
+        publishers {
+            id
+            name
+        }
+    }
+`;
+
 // BookCreateContainer = graphql(...)(LoadingStateViewer(BooksCreateContainerBase`))
-export const BookCreateContainer = graphql(BOOK_CREATION, {
-    options: {}
-})(LoadingStateViewer(BookCreateContainerBase));
+export const BookCreateContainer = compose(
+    graphql(BOOK_CREATION, {
+        name: 'bookCreation'
+    }),
+    graphql(PUBLISHERS_QUERY, {
+        name: 'publishersQuery'
+    })
+)(LoadingStateViewer(BookCreateContainerBase));
