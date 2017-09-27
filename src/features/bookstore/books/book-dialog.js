@@ -29,13 +29,22 @@ class BookDialogBase extends React.Component {
     static propTypes = {
         book: PropTypes.object,
         isNew: PropTypes.bool.isRequired,
+        publishers: PropTypes.array.isRequired,
         open: PropTypes.bool.isRequired,
         onSave: PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired
     };
 
     render() {
-        const { classes, book, isNew, open, onSave, onCancel } = this.props;
+        const {
+            classes,
+            book,
+            isNew,
+            publishers,
+            open,
+            onSave,
+            onCancel
+        } = this.props;
 
         return (
             <Dialog open={open} classes={{ paper: classes.dialogPaper }}>
@@ -61,16 +70,21 @@ class BookDialogBase extends React.Component {
                     <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="publisher">Publisher</InputLabel>
                         <Select
-                            value={book.publisher.name}
+                            value={book.publisherId}
                             onChange={this.onPublisherChange}
                             input={<Input id="publisher" />}
                         >
-                            <MenuItem value="">
+                            <MenuItem value="none">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            {publishers.map(publisher => (
+                                <MenuItem
+                                    key={publisher.id}
+                                    value={publisher.id}
+                                >
+                                    {publisher.name}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </DialogContent>
@@ -86,10 +100,6 @@ class BookDialogBase extends React.Component {
         );
     }
 
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
-    };
-
     onIdChange = event => {
         const { book } = this.props;
         book.setId(event.target.value);
@@ -98,6 +108,11 @@ class BookDialogBase extends React.Component {
     onNameChange = event => {
         const { book } = this.props;
         book.setName(event.target.value);
+    };
+
+    onPublisherChange = event => {
+        const { book } = this.props;
+        book.setPublisherId(event.target.value);
     };
 }
 

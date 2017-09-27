@@ -1,6 +1,5 @@
 import React from 'react';
 import { gql, graphql } from 'react-apollo';
-import { LoadingStateViewer } from 'shared/components';
 import { AuthorDialog } from './author-dialog';
 
 class AuthorUpdateContainerBase extends React.Component {
@@ -33,7 +32,7 @@ class AuthorUpdateContainerBase extends React.Component {
     };
 }
 
-const AUTHOR_UPDATE = gql`
+const UPDATE_AUTHOR_MUTATION = gql`
     mutation UpdateAuthor($id: ID!, $name: String!) {
         updateAuthor(id: $id, name: $name) {
             id
@@ -43,6 +42,6 @@ const AUTHOR_UPDATE = gql`
 `;
 
 // AuthorUpdateContainer = graphql(...)(LoadingStateViewer(AuthorsUpdateContainerBase`))
-export const AuthorUpdateContainer = graphql(AUTHOR_UPDATE, {
-    options: {}
-})(LoadingStateViewer(AuthorUpdateContainerBase));
+export const AuthorUpdateContainer = graphql(UPDATE_AUTHOR_MUTATION, {})(
+    AuthorUpdateContainerBase
+);

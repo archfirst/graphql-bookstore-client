@@ -50,8 +50,7 @@ export class App extends React.Component {
 
         // Create the Apollo client
         const apolloClient = new ApolloClient({
-            networkInterface: networkInterfaceWithSubscriptions,
-            dataIdFromObject: o => o.id
+            networkInterface: networkInterfaceWithSubscriptions
         });
 
         return (

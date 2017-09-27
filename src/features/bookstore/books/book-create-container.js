@@ -1,25 +1,33 @@
 import React from 'react';
 import { compose, gql, graphql } from 'react-apollo';
-import { LoadingStateViewer } from 'shared/components';
+import { BusyIndicator } from 'shared/components';
 import { BookDialog } from './book-dialog';
 
 class BookCreateContainerBase extends React.Component {
     render() {
-        const { book, openDialog } = this.props;
+        const { book, openDialog, publishersQuery } = this.props;
+
+        if (publishersQuery.loading) {
+            return <BusyIndicator />;
+        }
+
         return (
-            <BookDialog
-                book={book}
-                isNew={true}
-                open={openDialog}
-                onSave={this.onSave}
-                onCancel={this.onCancel}
-            />
+            openDialog && (
+                <BookDialog
+                    book={book}
+                    isNew={true}
+                    publishers={publishersQuery.publishers}
+                    open={openDialog}
+                    onSave={this.onSave}
+                    onCancel={this.onCancel}
+                />
+            )
         );
     }
 
     onSave = () => {
-        const { book, mutate, onAddDone } = this.props;
-        mutate({
+        const { book, createBookMutation, onAddDone } = this.props;
+        createBookMutation({
             variables: {
                 ...book
             }
@@ -33,11 +41,19 @@ class BookCreateContainerBase extends React.Component {
     };
 }
 
-const BOOK_CREATION = gql`
-    mutation CreateBook($id: ID!, $name: String!) {
-        createBook(id: $id, name: $name) {
+const CREATE_BOOK_MUTATION = gql`
+    mutation CreateBook($id: ID!, $name: String!, $publisherId: String!) {
+        createBook(id: $id, name: $name, publisherId: $publisherId) {
             id
             name
+            publisher {
+                id
+                name
+            }
+            authors {
+                id
+                name
+            }
         }
     }
 `;
@@ -53,10 +69,10 @@ const PUBLISHERS_QUERY = gql`
 
 // BookCreateContainer = graphql(...)(LoadingStateViewer(BooksCreateContainerBase`))
 export const BookCreateContainer = compose(
-    graphql(BOOK_CREATION, {
-        name: 'bookCreation'
+    graphql(CREATE_BOOK_MUTATION, {
+        name: 'createBookMutation'
     }),
     graphql(PUBLISHERS_QUERY, {
         name: 'publishersQuery'
     })
-)(LoadingStateViewer(BookCreateContainerBase));
+)(BookCreateContainerBase);

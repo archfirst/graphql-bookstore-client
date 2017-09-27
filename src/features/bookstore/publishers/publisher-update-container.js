@@ -1,6 +1,5 @@
 import React from 'react';
 import { gql, graphql } from 'react-apollo';
-import { LoadingStateViewer } from 'shared/components';
 import { PublisherDialog } from './publisher-dialog';
 
 class PublisherUpdateContainerBase extends React.Component {
@@ -33,16 +32,16 @@ class PublisherUpdateContainerBase extends React.Component {
     };
 }
 
-const PUBLISHER_UPDATE = gql`
+const UPDATE_PUBLISHER_MUTATION = gql`
     mutation UpdatePublisher($id: ID!, $name: String!) {
-      updatePublisher(id: $id, name: $name) {
-        id,
-        name
-      }
+        updatePublisher(id: $id, name: $name) {
+            id
+            name
+        }
     }
 `;
 
 // PublisherUpdateContainer = graphql(...)(LoadingStateViewer(PublishersUpdateContainerBase`))
-export const PublisherUpdateContainer = graphql(PUBLISHER_UPDATE, {
-    options: {}
-})(LoadingStateViewer(PublisherUpdateContainerBase));
+export const PublisherUpdateContainer = graphql(UPDATE_PUBLISHER_MUTATION, {})(
+    PublisherUpdateContainerBase
+);

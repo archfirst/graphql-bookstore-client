@@ -1,6 +1,5 @@
 import React from 'react';
 import { gql, graphql } from 'react-apollo';
-import { LoadingStateViewer } from 'shared/components';
 import { AuthorDialog } from './author-dialog';
 
 class AuthorCreateContainerBase extends React.Component {
@@ -33,7 +32,7 @@ class AuthorCreateContainerBase extends React.Component {
     };
 }
 
-const AUTHOR_CREATION = gql`
+const CREATE_AUTHOR_MUTATION = gql`
     mutation CreateAuthor($id: ID!, $name: String!) {
         createAuthor(id: $id, name: $name) {
             id
@@ -43,6 +42,6 @@ const AUTHOR_CREATION = gql`
 `;
 
 // AuthorCreateContainer = graphql(...)(LoadingStateViewer(AuthorsCreateContainerBase`))
-export const AuthorCreateContainer = graphql(AUTHOR_CREATION, {
-    options: {}
-})(LoadingStateViewer(AuthorCreateContainerBase));
+export const AuthorCreateContainer = graphql(CREATE_AUTHOR_MUTATION, {})(
+    AuthorCreateContainerBase
+);
