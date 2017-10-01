@@ -32,9 +32,15 @@ class AuthorsContainerBase extends React.Component {
                     return prev;
                 }
 
+                // Replace previous author with updated one
                 const updatedAuthor = subscriptionData.data.authorUpdated;
                 return Object.assign({}, prev, {
-                    authors: [...prev.authors, updatedAuthor]
+                    authors: prev.authors.map(
+                        author =>
+                            author.id === updatedAuthor.id
+                                ? updatedAuthor
+                                : author
+                    )
                 });
             }
         });

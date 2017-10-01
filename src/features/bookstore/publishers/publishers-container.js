@@ -36,9 +36,15 @@ class PublishersContainerBase extends React.Component {
                     return prev;
                 }
 
+                // Replace previous publisher with updated one
                 const updatedPublisher = subscriptionData.data.publisherUpdated;
                 return Object.assign({}, prev, {
-                    publishers: [...prev.publishers, updatedPublisher]
+                    publishers: prev.publishers.map(
+                        publisher =>
+                            publisher.id === updatedPublisher.id
+                                ? updatedPublisher
+                                : publisher
+                    )
                 });
             }
         });

@@ -75,7 +75,7 @@ class BooksViewBase extends React.Component {
                                     onClick={() => this.onRowClicked(book)}
                                 >
                                     <TableCell>{book.name}</TableCell>
-                                    <TableCell>{book.publisherId}</TableCell>
+                                    <TableCell>{book.publisher.name}</TableCell>
                                     <TableCell>
                                         {book.authors
                                             .map(author => author.name)

@@ -32,9 +32,13 @@ class BooksContainerBase extends React.Component {
                     return prev;
                 }
 
+                // Replace previous author with updated one
                 const updatedBook = subscriptionData.data.bookUpdated;
                 return Object.assign({}, prev, {
-                    books: [...prev.books, updatedBook]
+                    books: prev.books.map(
+                        book =>
+                            book.id === updatedBook.id ? updatedBook : book
+                    )
                 });
             }
         });

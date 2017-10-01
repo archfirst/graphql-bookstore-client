@@ -4,11 +4,13 @@ export class Book {
     @observable id;
     @observable name;
     @observable publisherId;
+    @observable authorIds;
 
     constructor(id = '', name = '', publisherId = 'none') {
         this.id = id;
         this.name = name;
         this.publisherId = publisherId;
+        this.authorIds = observable.array([]);
     }
 
     @action
@@ -24,5 +26,10 @@ export class Book {
     @action
     setPublisherId(publisherId) {
         this.publisherId = publisherId;
+    }
+
+    @action
+    setAuthorIds(authorIds) {
+        this.authorIds = authorIds;
     }
 }

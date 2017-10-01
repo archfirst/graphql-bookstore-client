@@ -27,9 +27,13 @@ class BookCreateContainerBase extends React.Component {
 
     onSave = () => {
         const { book, createBookMutation, onAddDone } = this.props;
+
         createBookMutation({
             variables: {
-                ...book
+                id: book.id,
+                name: book.name,
+                publisherId: book.publisherId,
+                authorIds: book.authorIds.slice()
             }
         });
         onAddDone();
@@ -42,18 +46,20 @@ class BookCreateContainerBase extends React.Component {
 }
 
 const CREATE_BOOK_MUTATION = gql`
-    mutation CreateBook($id: ID!, $name: String!, $publisherId: String!) {
-        createBook(id: $id, name: $name, publisherId: $publisherId) {
+    mutation CreateBook(
+        $id: ID!
+        $name: String!
+        $publisherId: ID
+        $authorIds: [ID]
+    ) {
+        createBook(
+            id: $id
+            name: $name
+            publisherId: $publisherId
+            authorIds: $authorIds
+        ) {
             id
             name
-            publisher {
-                id
-                name
-            }
-            authors {
-                id
-                name
-            }
         }
     }
 `;
