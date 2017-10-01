@@ -12,7 +12,7 @@ import Typography from 'material-ui/Typography';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import { Author } from './author';
+import { AuthorInput } from './author-input';
 import { AuthorCreateContainer } from './author-create-container';
 import { AuthorUpdateContainer } from './author-update-container';
 
@@ -42,8 +42,8 @@ class AuthorsViewBase extends React.Component {
 
     @observable openCreateDialog = false;
     @observable openUpdateDialog = false;
-    @observable newAuthor = new Author();
-    @observable existingAuthor = new Author();
+    @observable newAuthorInput = new AuthorInput();
+    @observable existingAuthorInput = new AuthorInput();
 
     render() {
         const { classes, authors } = this.props;
@@ -79,13 +79,13 @@ class AuthorsViewBase extends React.Component {
                 </Paper>
 
                 <AuthorCreateContainer
-                    author={this.newAuthor}
+                    author={this.newAuthorInput}
                     openDialog={this.openCreateDialog}
                     onAddDone={this.onAddDone}
                 />
 
                 <AuthorUpdateContainer
-                    author={this.existingAuthor}
+                    author={this.existingAuthorInput}
                     openDialog={this.openUpdateDialog}
                     onUpdateDone={this.onUpdateDone}
                 />
@@ -95,7 +95,7 @@ class AuthorsViewBase extends React.Component {
 
     @action
     onAddClicked = () => {
-        this.newAuthor = new Author();
+        this.newAuthorInput = new AuthorInput();
         this.openCreateDialog = true;
     };
 
@@ -106,7 +106,7 @@ class AuthorsViewBase extends React.Component {
 
     @action
     onRowClicked = author => {
-        this.existingAuthor = new Author(author.id, author.name);
+        this.existingAuthorInput = new AuthorInput(author.id, author.name);
         this.openUpdateDialog = true;
     };
 

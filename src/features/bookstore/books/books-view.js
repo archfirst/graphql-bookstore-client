@@ -12,7 +12,7 @@ import Typography from 'material-ui/Typography';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import { Book } from './book';
+import { BookInput } from './book-input';
 import { BookCreateContainer } from './book-create-container';
 import { BookUpdateContainer } from './book-update-container';
 
@@ -43,8 +43,8 @@ class BooksViewBase extends React.Component {
 
     @observable openCreateDialog = false;
     @observable openUpdateDialog = false;
-    @observable newBook = new Book();
-    @observable existingBook = new Book();
+    @observable newBookInput = new BookInput();
+    @observable existingBookInput = new BookInput();
 
     render() {
         const { classes, books } = this.props;
@@ -88,13 +88,13 @@ class BooksViewBase extends React.Component {
                 </Paper>
 
                 <BookCreateContainer
-                    book={this.newBook}
+                    book={this.newBookInput}
                     openDialog={this.openCreateDialog}
                     onAddDone={this.onAddDone}
                 />
 
                 <BookUpdateContainer
-                    book={this.existingBook}
+                    book={this.existingBookInput}
                     openDialog={this.openUpdateDialog}
                     onUpdateDone={this.onUpdateDone}
                 />
@@ -104,7 +104,7 @@ class BooksViewBase extends React.Component {
 
     @action
     onAddClicked = () => {
-        this.newBook = new Book();
+        this.newBookInput = new BookInput();
         this.openCreateDialog = true;
     };
 
@@ -115,7 +115,7 @@ class BooksViewBase extends React.Component {
 
     @action
     onRowClicked = book => {
-        this.existingBook = new Book(book.id, book.name);
+        this.existingBookInput = new BookInput(book.id, book.name);
         this.openUpdateDialog = true;
     };
 

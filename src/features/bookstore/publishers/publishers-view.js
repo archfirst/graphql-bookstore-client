@@ -12,7 +12,7 @@ import Typography from 'material-ui/Typography';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import { Publisher } from './publisher';
+import { PublisherInput } from './publisher-input';
 import { PublisherCreateContainer } from './publisher-create-container';
 import { PublisherUpdateContainer } from './publisher-update-container';
 
@@ -42,8 +42,8 @@ class PublishersViewBase extends React.Component {
 
     @observable openCreateDialog = false;
     @observable openUpdateDialog = false;
-    @observable newPublisher = new Publisher();
-    @observable existingPublisher = new Publisher();
+    @observable newPublisherInput = new PublisherInput();
+    @observable existingPublisherInput = new PublisherInput();
 
     render() {
         const { classes, publishers } = this.props;
@@ -52,11 +52,7 @@ class PublishersViewBase extends React.Component {
             <div className={classes.root}>
                 <div className={classes.header}>
                     <Typography type="title">Publishers</Typography>
-                    <Button
-                        dense
-                        color="primary"
-                        onClick={this.onAddClicked}
-                    >
+                    <Button dense color="primary" onClick={this.onAddClicked}>
                         Add
                     </Button>
                 </div>
@@ -69,29 +65,27 @@ class PublishersViewBase extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {
-                                publishers.map(publisher => (
-                                    <TableRow
-                                        hover
-                                        key={publisher.id}
-                                        onClick={() => this.onRowClicked(publisher)}
-                                    >
-                                        <TableCell>{publisher.name}</TableCell>
-                                    </TableRow>
-                                ))
-                            }
+                            {publishers.map(publisher => (
+                                <TableRow
+                                    hover
+                                    key={publisher.id}
+                                    onClick={() => this.onRowClicked(publisher)}
+                                >
+                                    <TableCell>{publisher.name}</TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </Paper>
 
                 <PublisherCreateContainer
-                    publisher={this.newPublisher}
+                    publisher={this.newPublisherInput}
                     openDialog={this.openCreateDialog}
                     onAddDone={this.onAddDone}
                 />
 
                 <PublisherUpdateContainer
-                    publisher={this.existingPublisher}
+                    publisher={this.existingPublisherInput}
                     openDialog={this.openUpdateDialog}
                     onUpdateDone={this.onUpdateDone}
                 />
@@ -101,7 +95,7 @@ class PublishersViewBase extends React.Component {
 
     @action
     onAddClicked = () => {
-        this.newPublisher = new Publisher();
+        this.newPublisherInput = new PublisherInput();
         this.openCreateDialog = true;
     };
 
@@ -111,8 +105,11 @@ class PublishersViewBase extends React.Component {
     };
 
     @action
-    onRowClicked = (publisher) => {
-        this.existingPublisher = new Publisher(publisher.id, publisher.name);
+    onRowClicked = publisher => {
+        this.existingPublisherInput = new PublisherInput(
+            publisher.id,
+            publisher.name
+        );
         this.openUpdateDialog = true;
     };
 

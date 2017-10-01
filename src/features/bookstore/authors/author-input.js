@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
 
-export class Author {
+export class AuthorInput {
     @observable id;
     @observable name;
 
