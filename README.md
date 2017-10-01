@@ -28,7 +28,9 @@ $ npm install
 $ npm start
 ```
 
-Now point your browser to http://localhost:3000/.
+Now point your browser to http://localhost:3000/. You should see the following UI:
+
+![Screen Shot](assets/screen-shot.png)
 
 Building for production
 -----------------------
