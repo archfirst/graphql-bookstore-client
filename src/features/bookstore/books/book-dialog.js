@@ -67,7 +67,7 @@ class BookDialogBase extends React.Component {
                         onChange={this.onNameChange}
                         margin="normal"
                     />
-                    <FormControl className={classes.formControl}>
+                    <FormControl>
                         <InputLabel htmlFor="publisher">Publisher</InputLabel>
                         <Select
                             value={book.publisherId}
