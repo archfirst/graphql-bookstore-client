@@ -58,7 +58,7 @@ class AuthorDialogBase extends React.Component {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onCancel} color="accent">
+                    <Button onClick={onCancel} color="secondary">
                         CANCEL
                     </Button>
                     <Button onClick={onSave} color="primary">

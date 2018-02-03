@@ -18,7 +18,7 @@ import { AuthorUpdateContainer } from './author-update-container';
 
 const styles = theme => ({
     root: {
-        height: '100%',
+        flex: 1,
         padding: theme.spacing.unit,
         display: 'flex',
         flexDirection: 'column'
@@ -52,7 +52,11 @@ class AuthorsViewBase extends React.Component {
             <div className={classes.root}>
                 <div className={classes.header}>
                     <Typography type="title">Authors</Typography>
-                    <Button dense color="primary" onClick={this.onAddClicked}>
+                    <Button
+                        size="small"
+                        color="primary"
+                        onClick={this.onAddClicked}
+                    >
                         Add
                     </Button>
                 </div>

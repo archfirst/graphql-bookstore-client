@@ -18,8 +18,7 @@ import { BookUpdateContainer } from './book-update-container';
 
 const styles = theme => ({
     root: {
-        height: '100%',
-        width: '100%',
+        flex: 1,
         padding: theme.spacing.unit,
         display: 'flex',
         flexDirection: 'column'
@@ -53,7 +52,11 @@ class BooksViewBase extends React.Component {
             <div className={classes.root}>
                 <div className={classes.header}>
                     <Typography type="title">Books</Typography>
-                    <Button dense color="primary" onClick={this.onAddClicked}>
+                    <Button
+                        size="small"
+                        color="primary"
+                        onClick={this.onAddClicked}
+                    >
                         Add
                     </Button>
                 </div>

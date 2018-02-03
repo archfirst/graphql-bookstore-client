@@ -28,7 +28,7 @@ class TitlebarBase extends React.Component {
                         {children}
                     </Typography>
 
-                    <IconButton color="contrast" onClick={this.onSettingsClick}>
+                    <IconButton color="inherit" onClick={this.onSettingsClick}>
                         <SettingsIcon />
                     </IconButton>
                 </Toolbar>

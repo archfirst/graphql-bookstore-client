@@ -1,5 +1,6 @@
 import React from 'react';
-import { gql, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 import { LoadingStateViewer } from 'shared/components';
 import { PublishersView } from './publishers-view';
 

@@ -1,15 +1,23 @@
 import React from 'react';
-import { gql, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { compose, graphql } from 'react-apollo';
+import { BusyIndicator } from 'shared/components';
 import { BookDialog } from './book-dialog';
 
 class BookUpdateContainerBase extends React.Component {
     render() {
-        const { book, openDialog } = this.props;
+        const { book, openDialog, publishersQuery } = this.props;
+
+        if (publishersQuery.loading) {
+            return <BusyIndicator />;
+        }
+
         return (
             openDialog && (
                 <BookDialog
                     book={book}
                     isNew={false}
+                    publishers={publishersQuery.publishers}
                     open={openDialog}
                     onSave={this.onSave}
                     onCancel={this.onCancel}
@@ -19,8 +27,9 @@ class BookUpdateContainerBase extends React.Component {
     }
 
     onSave = () => {
-        const { book, mutate, onUpdateDone } = this.props;
-        mutate({
+        const { book, updateBookMutation, onUpdateDone } = this.props;
+
+        updateBookMutation({
             variables: {
                 ...book
             }
@@ -43,7 +52,21 @@ const UPDATE_BOOK_MUTATION = gql`
     }
 `;
 
+const PUBLISHERS_QUERY = gql`
+    {
+        publishers {
+            id
+            name
+        }
+    }
+`;
+
 // BookUpdateContainer = graphql(...)(LoadingStateViewer(BooksUpdateContainerBase`))
-export const BookUpdateContainer = graphql(UPDATE_BOOK_MUTATION, {})(
-    BookUpdateContainerBase
-);
+export const BookUpdateContainer = compose(
+    graphql(UPDATE_BOOK_MUTATION, {
+        name: 'updateBookMutation'
+    }),
+    graphql(PUBLISHERS_QUERY, {
+        name: 'publishersQuery'
+    })
+)(BookUpdateContainerBase);

@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, gql, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { compose, graphql } from 'react-apollo';
 import { BusyIndicator } from 'shared/components';
 import { BookDialog } from './book-dialog';
 

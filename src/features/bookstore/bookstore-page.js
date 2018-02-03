@@ -7,7 +7,7 @@ import { PublishersContainer } from './publishers/publishers-container';
 
 const styles = {
     root: {
-        height: '100%',
+        flex: 1,
         display: 'flex',
         flexDirection: 'column'
     },
@@ -17,15 +17,19 @@ const styles = {
         flexDirection: 'row'
     },
     leftPanel: {
-        flex: 1
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column'
     },
     rightPanel: {
-        flex: 1
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column'
     },
     bottomPanel: {
         flex: 1,
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'column'
     }
 };
 
@@ -38,10 +42,10 @@ class BookstorePageBase extends React.Component {
                 <Titlebar>GraphQL Bookstore</Titlebar>
                 <div className={classes.topPanel}>
                     <div className={classes.leftPanel}>
-                        <PublishersContainer/>
+                        <PublishersContainer />
                     </div>
                     <div className={classes.rightPanel}>
-                        <AuthorsContainer/>
+                        <AuthorsContainer />
                     </div>
                 </div>
                 <div className={classes.bottomPanel}>
