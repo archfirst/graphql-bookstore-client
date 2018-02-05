@@ -29,16 +29,15 @@ const palette = {
 };
 
 export class App extends React.Component {
-    render() {
-        const theme = createMuiTheme({ palette });
-
-        // Create an http link:
-        const httpLink = new HttpLink({
+    
+    componentWillMount() {
+     // Create an http link:
+        this.httpLink = new HttpLink({
             uri: 'http://localhost:8080/graphql'
         });
 
         // Create a WebSocket link:
-        const wsLink = new WebSocketLink({
+        this.wsLink = new WebSocketLink({
             uri: 'ws://localhost:8080/subscriptions',
             options: {
                 reconnect: true
@@ -47,7 +46,7 @@ export class App extends React.Component {
 
         // Using the ability to split links, send data to each link
         // depending on what kind of operation is being sent
-        const link = split(
+        this.link = split(
             // split based on operation type
             ({ query }) => {
                 const { kind, operation } = getMainDefinition(query);
@@ -56,18 +55,22 @@ export class App extends React.Component {
                     operation === 'subscription'
                 );
             },
-            wsLink,
-            httpLink
+            this.wsLink,
+            this.httpLink
         );
 
         // Create the Apollo client
-        const apolloClient = new ApolloClient({
-            link: link,
+        this.apolloClient = new ApolloClient({
+            link: this.link,
             cache: new InMemoryCache()
-        });
-
+        });   
+    }
+    
+    render() {
+        const theme = createMuiTheme({ palette });
+       
         return (
-            <ApolloProvider client={apolloClient}>
+            <ApolloProvider client={this.apolloClient}>
                 <MuiThemeProvider theme={theme}>
                     <Provider>
                         <Router history={browserHistory}>
