@@ -22,7 +22,7 @@ class TitlebarBase extends React.Component {
                 <Toolbar>
                     <Typography
                         className={classes.title}
-                        type="title"
+                        variant="title"
                         color="inherit"
                     >
                         {children}

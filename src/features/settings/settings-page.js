@@ -11,7 +11,7 @@ const styles = theme => ({
 function SettingsPageBase({ classes }) {
     return (
         <div className={classes.root}>
-            <Typography type="title">Settings</Typography>
+            <Typography variant="title">Settings</Typography>
         </div>
     );
 }

@@ -51,7 +51,7 @@ class BooksViewBase extends React.Component {
         return (
             <div className={classes.root}>
                 <div className={classes.header}>
-                    <Typography type="title">Books</Typography>
+                    <Typography variant="title">Books</Typography>
                     <Button
                         size="small"
                         color="primary"

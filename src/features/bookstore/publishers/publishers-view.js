@@ -51,7 +51,7 @@ class PublishersViewBase extends React.Component {
         return (
             <div className={classes.root}>
                 <div className={classes.header}>
-                    <Typography type="title">Publishers</Typography>
+                    <Typography variant="title">Publishers</Typography>
                     <Button
                         size="small"
                         color="primary"
