@@ -55,13 +55,13 @@ export class App extends React.Component {
                     operation === 'subscription'
                 );
             },
-            wsLink,
-            httpLink
+            this.wsLink,
+            this.httpLink
         );
 
         // Create the Apollo client
         this.apolloClient = new ApolloClient({
-            link: link,
+            link: this.link,
             cache: new InMemoryCache()
         });   
     }
