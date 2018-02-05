@@ -28,49 +28,43 @@ const palette = {
     }
 };
 
-export class App extends React.Component {
-    
-    componentWillMount() {
-     // Create an http link:
-        this.httpLink = new HttpLink({
-            uri: 'http://localhost:8080/graphql'
-        });
+// Create an http link
+const httpLink = new HttpLink({
+    uri: 'http://localhost:8080/graphql'
+});
 
-        // Create a WebSocket link:
-        this.wsLink = new WebSocketLink({
-            uri: 'ws://localhost:8080/subscriptions',
-            options: {
-                reconnect: true
-            }
-        });
-
-        // Using the ability to split links, send data to each link
-        // depending on what kind of operation is being sent
-        this.link = split(
-            // split based on operation type
-            ({ query }) => {
-                const { kind, operation } = getMainDefinition(query);
-                return (
-                    kind === 'OperationDefinition' &&
-                    operation === 'subscription'
-                );
-            },
-            this.wsLink,
-            this.httpLink
-        );
-
-        // Create the Apollo client
-        this.apolloClient = new ApolloClient({
-            link: this.link,
-            cache: new InMemoryCache()
-        });   
+// Create a WebSocket link
+const wsLink = new WebSocketLink({
+    uri: 'ws://localhost:8080/subscriptions',
+    options: {
+        reconnect: true
     }
-    
+});
+
+// Using the ability to split links, send data to each link
+// depending on what kind of operation is being sent
+const link = split(
+    // split based on operation type
+    ({ query }) => {
+        const { kind, operation } = getMainDefinition(query);
+        return kind === 'OperationDefinition' && operation === 'subscription';
+    },
+    wsLink,
+    httpLink
+);
+
+// Create the Apollo client
+const apolloClient = new ApolloClient({
+    link: link,
+    cache: new InMemoryCache()
+});
+
+export class App extends React.Component {
     render() {
         const theme = createMuiTheme({ palette });
-       
+
         return (
-            <ApolloProvider client={this.apolloClient}>
+            <ApolloProvider client={apolloClient}>
                 <MuiThemeProvider theme={theme}>
                     <Provider>
                         <Router history={browserHistory}>
