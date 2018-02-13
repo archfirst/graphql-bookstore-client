@@ -22,11 +22,11 @@
   },
   "dependencies": {
     "apollo-client-preset": "^1.0.8",
-    "apollo-link-ws": "^1.0.4",
+    "apollo-link-ws": "^1.0.5",
     "graphql": "^0.12.3",
-    "graphql-tag": "^2.6.1",
+    "graphql-tag": "^2.7.3",
     "history": "^4.7.2",
-    "material-ui": "^1.0.0-beta.32",
+    "material-ui": "^1.0.0-beta.33",
     "material-ui-icons": "^1.0.0-beta.17",
     "mobx": "^3.5.1",
     "mobx-react": "^4.4.1",
@@ -41,7 +41,7 @@
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
-    "@storybook/react": "^3.3.11",
+    "@storybook/react": "^3.3.13",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
